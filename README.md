@@ -26,8 +26,8 @@ The goal is simple: make everyday learning easier to remember, one lesson at a t
 - **TypeScript**
 - **Vite**
 - **React Router**
-- **Tiptap** – Rich text editing.
-- **DOMPurify** – Sanitising HTML before rendering lesson content.
+- **Tiptap**
+- **DOMPurify**
 - **CSS**
 
 ### Backend
@@ -119,9 +119,7 @@ In production, environment variables are configured through the hosting platform
 
 This keeps sensitive information separate from the application code and repository.
 
-## Logging and Health Check
-
-Til'lie uses Express logging to make it easier to monitor the server and identify potential issues.
+## Logging, Health Check & Security
 
 ### Logging
 
@@ -139,6 +137,17 @@ When deployed on Render, these logs are available through the service's log view
 The server provides a `/health` endpoint that can be used to check whether the application server is running.
 
 A successful request to `/health` returns an HTTP 200 status code and a JSON response confirming that the server is running.
+
+### Security
+
+Several measures have been implemented to improve the security of the application and its deployment process:
+
+- Environment variables are stored locally in `.env` and are excluded from version control through `.gitignore`.
+- The `.env.example` file documents the required configuration without exposing secret values.
+- GitHub Actions uses repository secrets to store the Render Deploy Hook URLs.
+- The Docker production container runs as a non-root user to reduce unnecessary privileges.
+- DOMPurify is used to sanitize rich-text content before it is rendered in the application.
+- Production dependencies are installed separately from development dependencies.
 
 ## Running with Docker
 
@@ -202,19 +211,11 @@ GitHub Actions automates the build and deployment process whenever changes are p
 
 ```mermaid
 flowchart TD
-    User[User]
-    Browser[Browser]
-    Frontend[React + TypeScript]
-    Storage[(Browser localStorage)]
-    Server[Node.js + Express]
-    Health[/Health endpoint/]
-
-    User --> Browser
-    Browser --> Frontend
-    Frontend <--> Storage
-    Browser --> Server
-    Server --> Health
-    Server --> Frontend
+    User[User] --> Browser[Browser]
+    Browser --> Server[Node.js + Express]
+    Server --> Frontend[React + TypeScript]
+    Frontend <--> Storage[(Browser localStorage)]
+    Browser --> Health[/Health endpoint/]
 ```
 
 ### Deployment architecture
@@ -238,8 +239,37 @@ Lessons are stored locally in the browser where they were created. They are not 
 
 ## Live Application
 
-**Live URL:** [Til'lie](https://tillie.onrender.com/)
+**Live URL for Production:** [Til'lie](https://tillie.onrender.com/)
+
+**Live URL for Development:** [Til'lie Dev](https://tillie-development.onrender.com/)
+
+## Cost and Hosting Considerations
+
+1. **Render plan:** Free plan.
+2. **Why:** It is sufficient for a small project and avoids unnecessary hosting costs.
+3. **Cost factors:** Usage, server resources, storage and traffic.
+4. **Reducing resource usage:** Keep the application lightweight, optimise assets and avoid unnecessary server requests.
+5. **Limitations:** The free instance spins down after inactivity, which can cause slower initial loading. Lessons are stored locally and are not synchronised between devices.
+6. **Future scaling:** More users may require a paid plan, increased server resources and a database for shared data storage.
 
 ## Screenshots
 
-Screenshots of the application will be added here after deployment.
+![Til'lie Homepage](screenshots/Tillie-frontpage.png)
+
+![Til'lie on Render deployment](screenshots/Tillie-deployment.png)
+
+![Til'lie on Render Environments](screenshots/Tillie-renderEnvironments.png)
+
+![Til'lie on Render Errorlogs test](screenshots/Tillie-errorlogs.png)
+
+![Til'lie on Github Actions](screenshots/Tillie%20-githubActions.png)
+
+## Future Improvements
+
+If Til'lie were to grow beyond its current scope, several improvements could be introduced:
+
+- **Database integration:** Store lessons in a database instead of browser localStorage.
+- **User authentication:** Allow users to create accounts and access their lessons securely.
+- **Data synchronisation:** Make lessons available across multiple devices.
+- **Automated testing:** Add tests to the GitHub Actions pipeline to catch potential issues before deployment.
+- **Scalability:** Upgrade hosting resources when increased traffic or usage requires it.
