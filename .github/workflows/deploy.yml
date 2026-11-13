@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
   workflow_dispatch:
 
 jobs:
@@ -31,7 +32,14 @@ jobs:
       - name: Build Docker image
         run: docker build -t tillie .
 
-      - name: Trigger Render deployment
+      - name: Deploy to Development
+        if: github.ref == 'refs/heads/dev'
         run: curl --fail --silent --show-error -X POST "$RENDER_DEPLOY_HOOK_URL"
         env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL_DEV }}
+
+      - name: Deploy to Production
+        if: github.ref == 'refs/heads/main'
+        run: curl --fail --silent --show-error -X POST "$RENDER_DEPLOY_HOOK_URL"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL_PROD }}
