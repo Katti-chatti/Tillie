@@ -1,0 +1,79 @@
+.individual-lesson {
+  margin-top: 32px;
+  padding: 32px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.individual-lesson h1 {
+  margin-bottom: 12px;
+}
+
+.lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 28px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.individual-lesson-content {
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.individual-lesson-content h2,
+.individual-lesson-content h3 {
+  margin: 24px 0 12px;
+}
+
+.individual-lesson-content ul,
+.individual-lesson-content ol {
+  padding-left: 24px;
+}
+
+.individual-lesson-content a {
+  color: #9875ce;
+  text-decoration: underline;
+}
+
+.lesson-primary-button {
+  background: var(--color-lavender);
+  color: var(--color-text);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-md);
+  font: inherit;
+  transition: background 0.2s ease;
+}
+
+.lesson-primary-button:hover {
+  background: #c8b4f5;
+}
+
+.lesson-delete-button {
+  background: var(--color-surface);
+  color: #c45b68;
+  border: 1px solid #e8b9be;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-md);
+  font: inherit;
+  margin-left: 12px;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.lesson-delete-button:hover {
+  background: #fff0f1;
+  border-color: #c45b68;
+}
+
+@media (max-width: 480px) {
+  .individual-lesson {
+    padding: 20px;
+  }
+}
