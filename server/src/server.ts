@@ -23,10 +23,6 @@ app.get("/health", (_req, res) => {
   });
 });
 
-app.get("/test-error", (_req, _res, next) => {
-  next(new Error("This is a test error!"));
-});
-
 const frontendPath = path.resolve(__dirname, "../../dist");
 
 app.use(express.static(frontendPath));
